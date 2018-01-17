@@ -6,10 +6,10 @@ import com.jindz.excel.anno.Excel;
 
 public class TestVo {
 	
-	@Excel(index=0,textType = Excel.calendar,CalendarFormat = "yyyy-MM-dd HH:mm:ss")
+	@Excel(index=0,textType = Excel.calendar,CalendarFormat = "yyyy-MM-dd")
 	private Date startDate;
 	
-	@Excel(index=1,textType = Excel.calendar,CalendarFormat = "yyyy-MM-dd HH:mm:ss")
+	@Excel(index=1,textType = Excel.calendar,CalendarFormat = "yyyy-MM-dd")
 	private Date endDate;
 
 	public Date getStartDate() {
