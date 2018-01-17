@@ -1,7 +1,7 @@
 package com.jindz.excel.enums;
 
 /**
- * Created by hx on 2017/10/26. 异常映射码表
+ * Created by jindz on 2017/10/26
  */
 public enum ExceptionMappingEnum {
 
