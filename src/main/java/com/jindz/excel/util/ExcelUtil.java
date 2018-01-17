@@ -9,6 +9,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,6 +17,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -909,7 +911,18 @@ public abstract class ExcelUtil {
     
     public static String toString(Object obj) {
 		if (obj != null) {
-			return String.valueOf(obj).trim();
+			String str = String.valueOf(obj).trim();
+			try {
+				if(str.startsWith("Wed")){
+					SimpleDateFormat sf1 = new SimpleDateFormat("EEE MMM dd hh:mm:ss z yyyy", Locale.ENGLISH);
+					Date date = sf1.parse(str);
+					SimpleDateFormat sf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					return sf2.format(date);
+				}
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			return str;
 		}
 		return "";
 	}
