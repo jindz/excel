@@ -41,10 +41,9 @@ public class ValidateException extends Exception {
 	/**
 	 * 构造器
 	 * 
-	 * @param code
-	 * @param message
-	 * @param clazz
-	 *            可以告诉捕获错误的开发者具体是哪一个业务模块出现问题的Class
+	 * @param code	错误编码
+	 * @param message 消息
+	 * @param clazz  可以告诉捕获错误的开发者具体是哪一个业务模块出现问题的Class
 	 */
 	public ValidateException(String code, String message, Class clazz) {
 		super();
