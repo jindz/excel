@@ -306,17 +306,13 @@ public abstract class ExcelUtil {
                 Field filed = getFieldByMethod(methodList.get(j), obj);
                 if (filed.isAnnotationPresent(Excel.class)) {
                     comment = parseComment(filed);
-                    String title = toString(comment.get("title"));
-                    int titleIndex = toInt(comment.get("index"));
-                    Integer valueType = toInt(comment.get("textType"));
-                    String timeFormat = toString(comment.get("timeFormat"));
-                    String calendarFormat = toString(comment.get("CalendarFormat"));
 
                     // set text
-                    setText(xssBook, sheet, i, title, titleIndex, value, valueType, timeFormat, calendarFormat);
+                    setText(xssBook, sheet, i, toString(comment.get("title")), toInt(comment.get("index")), 
+                    		value, toInt(comment.get("textType")), toString(comment.get("timeFormat")), toString(comment.get("CalendarFormat")));
                     // set Style
                     if (comment != null) {
-                        setStype(comment, xssBook, sheet, i, titleIndex);
+                        setStype(comment, xssBook, sheet, i, toInt(comment.get("index")));
                     }
                 }
 
