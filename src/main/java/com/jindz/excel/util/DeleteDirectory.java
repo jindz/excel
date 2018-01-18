@@ -40,17 +40,4 @@ public class DeleteDirectory {
         // 目录此时为空，可以删除
         return dir.delete();
     }
-    /**
-     *测试
-     */
-//    public static void main(String[] args) {
-//        doDeleteEmptyDir("new_dir1");
-//        String newDir2 = "new_dir2";
-//        boolean success = deleteDir(new File(newDir2));
-//        if (success) {
-//            System.out.println("Successfully deleted populated directory: " + newDir2);
-//        } else {
-//            System.out.println("Failed to delete populated directory: " + newDir2);
-//        }
-//    }
 }
