@@ -1,8 +1,11 @@
 package com.excel.test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.poi.ss.usermodel.IndexedColors;
 
 import com.jindz.excel.util.ExcelUtil;
 
@@ -20,8 +23,10 @@ public class Test {
 		
 		 list.add(test);
 		
-		 ExcelUtil.create(list, TestVo.class, "d:/");
+		 File file = ExcelUtil.create(list, TestVo.class, "d:/");
 
+		 System.out.println(file.getPath());
+		
 
 	}
 

@@ -28,6 +28,7 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFDataFormat;
@@ -40,6 +41,7 @@ import com.alibaba.fastjson.JSON;
 import com.jindz.excel.anno.BaseVo;
 import com.jindz.excel.anno.Excel;
 import com.jindz.excel.enums.ExceptionMappingEnum;
+import com.jindz.excel.enums.TextType;
 import com.jindz.excel.validate.ExcelValidate;
 import com.jindz.excel.validate.ValidateException;
 
@@ -280,7 +282,7 @@ public abstract class ExcelUtil {
      * @author jindz
      * @param valueList 数据结果集
      * @param fileName 文件
-     * @param saveDirectory 保存目录
+     * @param targetDirectory 保存目标目录
      * @param classz 类名
      * @return File
      * 
@@ -288,7 +290,7 @@ public abstract class ExcelUtil {
      * @createDate 2013-12-04 18:07:05
      * 
      */
-    public static File create(List<?> valueList, Class<?> classz, String saveDirectory) throws Exception {
+    public static File create(List<?> valueList, Class<?> classz, String targetDirectory) throws Exception {
         if ("Map".equals(getType(classz).getSimpleName())) {
             throw new Exception("Class Can't be Map.");
         }
@@ -306,10 +308,10 @@ public abstract class ExcelUtil {
                 Field filed = getFieldByMethod(methodList.get(j), obj);
                 if (filed.isAnnotationPresent(Excel.class)) {
                     comment = parseComment(filed);
-
+                    TextType type = (TextType)comment.get("textType");
                     // set text
                     setText(xssBook, sheet, i, toString(comment.get("title")), toInt(comment.get("index")), 
-                    		value, toInt(comment.get("textType")), toString(comment.get("timeFormat")), toString(comment.get("CalendarFormat")));
+                    		value, type.getValue(), toString(comment.get("timeFormat")), toString(comment.get("CalendarFormat")));
                     // set Style
                     if (comment != null) {
                         setStype(comment, xssBook, sheet, i, toInt(comment.get("index")));
@@ -318,7 +320,7 @@ public abstract class ExcelUtil {
 
             }
         }
-        File file = FileUtil.createFileAsFile(saveDirectory, System.currentTimeMillis() + ".xlsx");
+        File file = FileUtil.createFileAsFile(targetDirectory, System.currentTimeMillis() + ".xlsx");
         OutputStream stream = new FileOutputStream(file);
         xssBook.write(stream);
         stream.close();
@@ -816,8 +818,9 @@ public abstract class ExcelUtil {
 
     private static void setStype(Map<String, Object> comment, XSSFWorkbook xssBook, XSSFSheet sheet, int row, int titleIndex) {
         short border = Short.valueOf(comment.get("border") + "");
-        Integer valueType = toInt(comment.get("textType"));
-        short backgroundColor = Short.valueOf(comment.get("backgroundColor") + "");
+        TextType type = (TextType)comment.get("textType");
+        IndexedColors colors = (IndexedColors)comment.get("backgroundColor");
+        short backgroundColor = colors.getIndex();
         String timeFormat = toString(comment.get("timeFormat"));
         String calendarFormat = toString(comment.get("CalendarFormat"));
 
@@ -834,7 +837,7 @@ public abstract class ExcelUtil {
         // text stype
         XSSFCellStyle textStype = xssBook.createCellStyle();
         setBorder(textStype, border);
-        if (backgroundColor != Excel.defaultBackgroundColor) {
+        if (backgroundColor != Excel.DEFAULT_COLOR) {
             textStype.setAlignment(HSSFCellStyle.ALIGN_CENTER);
             textStype.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
             textStype.setFillForegroundColor(backgroundColor);
@@ -843,7 +846,7 @@ public abstract class ExcelUtil {
         XSSFCell cell = sheet.getRow(row + 1).getCell(titleIndex);
         XSSFDataFormat format = xssBook.createDataFormat();
         try {
-            switch (valueType) {
+            switch (type.getValue()) {
                 case Excel.calendar:
                     textStype.setDataFormat(format.getFormat(calendarFormat));
                     break;
@@ -909,7 +912,7 @@ public abstract class ExcelUtil {
 		if (obj != null) {
 			String str = String.valueOf(obj).trim();
 			try {
-				if(str.startsWith("Wed")){
+				if(str.startsWith("Wed ") || str.startsWith("Thu ")){
 					SimpleDateFormat sf1 = new SimpleDateFormat("EEE MMM dd hh:mm:ss z yyyy", Locale.ENGLISH);
 					Date date = sf1.parse(str);
 					SimpleDateFormat sf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
