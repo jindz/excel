@@ -19,10 +19,10 @@ public @interface Excel {
 	public static final int string = 3;
 	
 	public static final String HH_MM = "HH:mm";
-	
 	public static final String YYYY_MM_DD = "yyyy-MM-dd";
 
-	public static final short defaultBackgroundColor = 9999;
+	//无色
+	public static final short DEFAULT_COLOR = 9999;
 
 	/**
 	 * 下标
@@ -59,5 +59,5 @@ public @interface Excel {
 	 * 背景色设置
 	 * @return
 	 */
-	short backgroundColor() default defaultBackgroundColor;
+	short backgroundColor() default DEFAULT_COLOR;
 }
