@@ -11,28 +11,45 @@ import com.jindz.excel.util.ExcelUtil;
 public class Test {
 
 	public static void main(String[] args) throws Exception {
+		// create();
+		paser(new File("d:/1516351763910.xlsx"));
+	}
 
-		TestVo test = new TestVo();
-
-		test.setStartDate(new Date());
-
-		test.setEndDate(new Date());
-
-		test.setText("qqq");
+	public static void create() throws Exception {
+		Long start = System.currentTimeMillis();
 
 		List<TestVo> list = new ArrayList<TestVo>();
 
-		list.add(test);
+		for (int i = 0; i < 10000; i++) {
+			TestVo test = new TestVo();
+
+			test.setStartDate(new Date());
+
+			test.setEndDate(new Date());
+
+			test.setText("qqq");
+
+			list.add(test);
+		}
 
 		File file = ExcelUtil.create(list, TestVo.class, "d:/");
 
-		System.out.println(file.getPath());
+		System.out.println("完成 ,耗时:" + (System.currentTimeMillis() - start));
 
+		System.out.println("路径：" + file.getPath());
+	}
+
+	public static void paser(File file) throws Exception {
+		
+		Long start = System.currentTimeMillis();
+		
 		Validate validate = new Validate();
 
 		List<TestVo> lists = ExcelUtil.paser(validate, file, TestVo.class, 1);
 		
-		System.out.println(validate.getError());
+		System.out.println("完成 ,耗时:" + (System.currentTimeMillis() - start));
+
+		System.out.println("错误数量:" + validate.getError().size());
 
 		System.out.println(JSON.toJSONString(lists));
 	}
