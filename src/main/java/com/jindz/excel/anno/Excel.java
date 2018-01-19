@@ -29,38 +29,24 @@ public @interface Excel {
 	// 无色
 	public static final short DEFAULT_COLOR = 9999;
 
-	/**
-	 * 下标
-	 */
+	// 下标
 	int index();
 
-	/**
-	 * 列名
-	 */
+	// 列名
 	String title() default "";
 
-	/**
-	 * 内容的类型
-	 */
+	// 内容的类型
 	DataType dataType() default DataType.STRING;
 
-	/**
-	 * 如果列内容为时间，那么将按照此格式进行格式化
-	 */
+	// 如果列内容为时间，那么将按照此格式进行格式化
 	String timeFormat() default HH_MM;
 
-	/**
-	 * 如果列内容为日期，那么将按照此格式进行格式化
-	 */
-	String CalendarFormat() default YYYY_MM_DD;
+	// 如果列内容为日期，那么将按照此格式进行格式化
+	String calendarFormat() default YYYY_MM_DD;
 
-	/**
-	 * 边框设置
-	 */
+	// 边框设置
 	short border() default Border.BORDER_THIN;
 
-	/**
-	 * 背景色设置
-	 */
+	// 背景色设置
 	IndexedColors backgroundColor() default IndexedColors.WHITE;
 }

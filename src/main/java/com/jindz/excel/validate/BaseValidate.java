@@ -104,7 +104,7 @@ public class BaseValidate {
 					Map<String, Object> comment = parseComment(fields);
 					Object obj = method.get(i).invoke(target);
 					// 1、校验是否可以为空
-					Boolean isRequired = Boolean.valueOf(comment.get("isRequired").toString());
+					Boolean isRequired = Boolean.valueOf(comment.get("required").toString());
 					if (isRequired) {
 						if (obj == null || org.apache.commons.lang3.StringUtils.isEmpty(toString(obj))) {
 							// 不能为空的前置条件

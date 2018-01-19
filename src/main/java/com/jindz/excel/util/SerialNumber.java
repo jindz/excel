@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -67,5 +69,13 @@ public class SerialNumber {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	// 校验手机号格式
+	public static boolean isMobileNO(String mobiles) {
+		Pattern p = Pattern
+				.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+		Matcher m = p.matcher(mobiles);
+		return m.matches();
 	}
 }

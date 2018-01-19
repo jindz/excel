@@ -10,13 +10,17 @@ import com.jindz.excel.enums.DataType;
 
 public class TestVo {
 
-	@Validate(errorCode="001",errorMsg="开始时间不能为空")
-	@Excel(index = 0, title = "开始时间", backgroundColor = IndexedColors.RED, dataType = DataType.CALENDAR, CalendarFormat = "yyyy-MM-dd")
+	@Validate(errorCode = "001", errorMsg = "开始时间不能为空")
+	@Excel(index = 0, title = "开始时间", backgroundColor = IndexedColors.RED, dataType = DataType.CALENDAR, calendarFormat = "yyyy-MM-dd")
 	private Date startDate;
 
-	@Validate(errorCode="002",errorMsg="结束时间不能为空")
-	@Excel(index = 1, title = "结束时间", dataType = DataType.CALENDAR, CalendarFormat = "yyyy-MM-dd")
+	@Validate(errorCode = "002", errorMsg = "结束时间不能为空")
+	@Excel(index = 1, title = "结束时间", dataType = DataType.CALENDAR, calendarFormat = "yyyy-MM-dd")
 	private Date endDate;
+
+	@Validate(errorCode = "003", errorMsg = "内容不能为空")
+	@Excel(index = 2, title = "内容")
+	private String text;
 
 	public Date getStartDate() {
 		return startDate;
@@ -34,4 +38,11 @@ public class TestVo {
 		this.endDate = endDate;
 	}
 
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
 }

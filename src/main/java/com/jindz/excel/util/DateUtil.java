@@ -27,13 +27,13 @@ public class DateUtil {
 
 	public static final int YEAR = DAY * 365;
 
-	private static final String DEF_OUT_FORMAT = "yyyy-MM-dd";
+	public static final String DEF_OUT_FORMAT = "yyyy-MM-dd";
 
-	private static final String DATE_FORMATTER = "yyyy-MM-dd HH:mm:ss";
+	public static final String DATE_FORMATTER = "yyyy-MM-dd HH:mm:ss";
 
-	private static final String DATE_FORMATTER_2 = "yyyy/MM/dd HH:mm:ss";
+	public static final String DATE_FORMATTER_2 = "yyyy/MM/dd HH:mm:ss";
 
-	private static long MILLIONSECONDSOFDAY = 86400000;
+	public static long MILLIONSECONDSOFDAY = 86400000;
 
 	/**
 	 * 得到日期的前后几天
@@ -584,13 +584,12 @@ public class DateUtil {
 	 *            format
 	 * @return return
 	 */
-	public static Date toDateByFormat(String str, String format) {
+	public static Date toDateByFormat(String str, String format) throws Exception{
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		try {
 			return sdf.parse(str);
 		} catch (ParseException e) {
-			e.printStackTrace();
-			return null;
+			throw e;
 		}
 	}
 

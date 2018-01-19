@@ -17,6 +17,8 @@ public class Test {
 		test.setStartDate(new Date());
 
 		test.setEndDate(new Date());
+		
+		test.setText("你好");
 
 		List<TestVo> list = new ArrayList<TestVo>();
 
@@ -26,7 +28,7 @@ public class Test {
 		
 		System.out.println(file.getPath());
 
-		List<TestVo> lists = ExcelUtil.paser(file, TestVo.class, 1);
+		List<TestVo> lists = ExcelUtil.paser(new Validate(),file, TestVo.class, 1);
 		
 		System.out.println(JSON.toJSONString(lists));
 	}
