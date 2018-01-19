@@ -1,37 +1,15 @@
 package com.jindz.excel.anno;
 
-@SuppressWarnings("unused")
 public class BaseVo {
 
 	// 小标从0开始，默认排除表头从第二行开始读取
-	private Integer startLine = 2;
-	// 默认读10行
-	private Integer endLine;
-	
-	public String info_type;
+	private Integer startRow = 2;
 
-	public String getInfo_type() {
-		return info_type;
+	public Integer getStartRow() {
+		return startRow;
 	}
 
-	public void setInfo_type(String info_type) {
-		this.info_type = info_type;
+	public Integer getEndRow() {
+		return startRow + 10;
 	}
-
-	public Integer getStartLine() {
-		return startLine;
-	}
-
-	public void setStartLine(Integer startLine) {
-		this.startLine = startLine;
-	}
-
-	public Integer getEndLine() {
-		return getStartLine() + 10;
-	}
-
-	public void setEndLine(Integer endLine) {
-		this.endLine = endLine;
-	}
-
 }

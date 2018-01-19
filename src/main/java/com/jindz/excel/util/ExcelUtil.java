@@ -94,23 +94,7 @@ public abstract class ExcelUtil {
     }
     
     public static <T> List<T> paser(File file, Class<T> classz, int startLine) throws Exception {
-
-        // 2003
-        HSSFWorkbook hssfWorkbook = null;
-        // 2007
-        XSSFWorkbook xssfWorkbook = null;
-        List<T> dataList = new ArrayList();
-        try {
-            hssfWorkbook = new HSSFWorkbook(new FileInputStream(file));
-        } catch (Exception e) {
-            xssfWorkbook = new XSSFWorkbook(new FileInputStream(file));
-        }
-        if (hssfWorkbook != null) {
-            parseBy2003(null,hssfWorkbook, classz, dataList, file, startLine);
-        } else {
-            parseBy2007(null,xssfWorkbook, classz, dataList, file, startLine);
-        }
-        return dataList;
+    	return paser(null, file, classz, startLine);
     }
 
     public static Object getBook(File file) throws Exception {
@@ -242,10 +226,14 @@ public abstract class ExcelUtil {
         }
         return map;
     }
+    
+    public static Map<String, List<Object>> paserBatchSheet(File file, int startLine, String packageName) throws Exception {
+    	return paserBatchSheet(null, file, startLine, packageName);
+    }
 
     /**
      * 
-     * 解析excel，多个Sheet情况<br/>
+     * 解析excel，多个Sheet,且每个sheet多个表格情况<br/>
      * 
      * @author jindz
      * @date: 2017/01/12 上午 11:49:14
@@ -277,7 +265,7 @@ public abstract class ExcelUtil {
                         List<Object> dataList = new ArrayList<Object>();
 
                         BaseVo instans = (BaseVo) clz.newInstance();
-                        parseSheet2(validate,sheet, clz, dataList, instans.getStartLine(), instans.getEndLine());
+                        parseSheet2(validate,sheet, clz, dataList, instans.getStartRow(), instans.getEndRow());
                         if (map.get(sheetName) == null) {
                             map.put(sheetName, dataList);
                         } else {
@@ -294,6 +282,10 @@ public abstract class ExcelUtil {
             }
         }
         return map;
+    }
+    
+    public static Map<String, List<Object>> paserBatchSheet(File file,Map<String, String> mapping) throws Exception {
+    	return paserBatchSheet(null, file, mapping);
     }
 
     /**
