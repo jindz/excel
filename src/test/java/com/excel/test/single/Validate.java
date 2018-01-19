@@ -1,4 +1,4 @@
-package com.excel.test;
+package com.excel.test.single;
 
 import com.alibaba.fastjson.JSON;
 import com.jindz.excel.validate.BaseValidate;
