@@ -17,19 +17,23 @@ public class Test {
 		test.setStartDate(new Date());
 
 		test.setEndDate(new Date());
-		
-		test.setText("你好");
+
+		test.setText("");
 
 		List<TestVo> list = new ArrayList<TestVo>();
 
 		list.add(test);
 
 		File file = ExcelUtil.create(list, TestVo.class, "d:/");
-		
+
 		System.out.println(file.getPath());
 
-		List<TestVo> lists = ExcelUtil.paser(new Validate(),file, TestVo.class, 1);
+		Validate validate = new Validate();
+
+		List<TestVo> lists = ExcelUtil.paser(validate, file, TestVo.class, 1);
 		
+		System.out.println(validate.getError());
+
 		System.out.println(JSON.toJSONString(lists));
 	}
 
