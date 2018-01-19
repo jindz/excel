@@ -3,7 +3,7 @@ package com.jindz.excel.enums;
 /**
  * Created by jindz on 2017/10/26
  */
-public enum ExcelExceptionEnum{
+public enum ExceptionEnum{
 
 	SYSTEM_ERROR("-1", " 系统错误"), 
 	EXCEL_TITLE_ERROR("00000060", "Excel中的表头与代码注解中的表头不一致");
@@ -11,7 +11,7 @@ public enum ExcelExceptionEnum{
 	private String errorCode;
 	private String errorMsg;
 
-	ExcelExceptionEnum(String errorCode, String errorMsg) {
+	ExceptionEnum(String errorCode, String errorMsg) {
 		this.errorCode = errorCode;
 		this.errorMsg = errorMsg;
 	}
