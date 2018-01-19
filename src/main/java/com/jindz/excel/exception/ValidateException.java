@@ -1,4 +1,4 @@
-package com.jindz.excel.validate;
+package com.jindz.excel.exception;
 
 /**
  * @author jindz

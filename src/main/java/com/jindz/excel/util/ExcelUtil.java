@@ -41,8 +41,8 @@ import com.alibaba.fastjson.JSON;
 import com.jindz.excel.anno.BaseVo;
 import com.jindz.excel.anno.Excel;
 import com.jindz.excel.enums.DataType;
+import com.jindz.excel.exception.ValidateException;
 import com.jindz.excel.validate.ExcelValidate;
-import com.jindz.excel.validate.ValidateException;
 
 /**
  * Excel导入导出

@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.jindz.excel.anno.Validate;
+import com.jindz.excel.exception.ValidateException;
 
 
 /**

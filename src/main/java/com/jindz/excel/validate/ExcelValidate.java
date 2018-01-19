@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.jindz.excel.exception.ValidateException;
+
 
 /**
  * Excel导入数据校验抽象类
