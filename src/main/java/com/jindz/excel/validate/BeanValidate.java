@@ -22,7 +22,7 @@ import com.jindz.excel.anno.Validate;
  * 
  *       益丰公司版权所有 </br>
  */
-public class BaseValidate {
+public class BeanValidate {
 
 	// 运算符定义
 	static final String dy = "==";
@@ -45,7 +45,7 @@ public class BaseValidate {
 	 */
 	public static <T> void validateField(T... target) throws ValidateException {
 		if (target == null) {
-			throw new ValidateException("1001", "参数不能为空！", BaseValidate.class);
+			throw new ValidateException("1001", "参数不能为空！", BeanValidate.class);
 		} else {
 			try {
 				for (int i = 0; i < target.length; i++) {
@@ -69,7 +69,7 @@ public class BaseValidate {
 	 */
 	public static <T> void validateField(Map<String, String> errors, T... target) throws ValidateException {
 		if (target == null) {
-			throw new ValidateException("1001", "参数不能为空！", BaseValidate.class);
+			throw new ValidateException("1001", "参数不能为空！", BeanValidate.class);
 		} else {
 			try {
 				for (int i = 0; i < target.length; i++) {
@@ -132,7 +132,7 @@ public class BaseValidate {
 			} catch (ValidateException e) {
 				throw e;
 			} catch (Exception e) {
-				throw new ValidateException("1001", "系统异常!" + e.getMessage(), BaseValidate.class);
+				throw new ValidateException("1001", "系统异常!" + e.getMessage(), BeanValidate.class);
 			}
 		}
 
@@ -144,7 +144,7 @@ public class BaseValidate {
 		if (errors != null) {
 			errors.put(errorCode, errorMsg);
 		} else {
-			throw new ValidateException(errorCode, errorMsg, BaseValidate.class);
+			throw new ValidateException(errorCode, errorMsg, BeanValidate.class);
 		}
 	}
 
@@ -309,7 +309,7 @@ public class BaseValidate {
 		}
 	}
 
-	public static BaseValidate config(String... field) {
+	public static BeanValidate config(String... field) {
 		if (config.get() == null) {
 			ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<String, Object>();
 			map.put(key, field);
@@ -317,7 +317,7 @@ public class BaseValidate {
 		} else {
 			config.get().put(key, field);
 		}
-		return new BaseValidate();
+		return new BeanValidate();
 	}
 
 }

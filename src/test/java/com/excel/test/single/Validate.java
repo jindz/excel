@@ -1,7 +1,7 @@
 package com.excel.test.single;
 
 import com.alibaba.fastjson.JSON;
-import com.jindz.excel.validate.BaseValidate;
+import com.jindz.excel.validate.BeanValidate;
 import com.jindz.excel.validate.ExcelValidate;
 import com.jindz.excel.validate.ValidateException;
 
@@ -14,7 +14,7 @@ public class Validate extends ExcelValidate<TestVo> {
 				+ JSON.toJSONString(t));
 
 		try {
-			BaseValidate.validateField(t);
+			BeanValidate.validateField(t);
 		} catch (Exception e) {
 			this.getError().add(e.getMessage());
 			return false;
