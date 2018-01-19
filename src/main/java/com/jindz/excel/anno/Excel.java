@@ -26,9 +26,6 @@ public @interface Excel {
 	public static final String HH_MM = "HH:mm";
 	public static final String YYYY_MM_DD = "yyyy-MM-dd";
 
-	// 无色
-	public static final short DEFAULT_COLOR = 9999;
-
 	// 下标
 	int index();
 

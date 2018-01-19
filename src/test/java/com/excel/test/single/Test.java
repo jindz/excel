@@ -18,7 +18,7 @@ public class Test {
 
 		test.setEndDate(new Date());
 
-		test.setText("");
+		test.setText("qqq");
 
 		List<TestVo> list = new ArrayList<TestVo>();
 

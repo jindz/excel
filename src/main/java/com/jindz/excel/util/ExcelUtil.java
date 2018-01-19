@@ -322,7 +322,7 @@ public abstract class ExcelUtil {
                     DataType type = (DataType)comment.get("dataType");
                     // set text
                     setText(xssBook, sheet, i, toString(comment.get("title")), toInt(comment.get("index")), 
-                    		value, type.getValue(), toString(comment.get("timeFormat")), toString(comment.get("CalendarFormat")));
+                    		value, type.getValue(), toString(comment.get("timeFormat")), toString(comment.get("calendarFormat")));
                     // set Style
                     if (comment != null) {
                         setStype(comment, xssBook, sheet, i, toInt(comment.get("index")));
@@ -843,7 +843,7 @@ public abstract class ExcelUtil {
         IndexedColors colors = (IndexedColors)comment.get("backgroundColor");
         short backgroundColor = colors.getIndex();
         String timeFormat = toString(comment.get("timeFormat"));
-        String calendarFormat = toString(comment.get("CalendarFormat"));
+        String calendarFormat = toString(comment.get("calendarFormat"));
 
         // head stype
         if (row == 0) {
@@ -858,7 +858,7 @@ public abstract class ExcelUtil {
         // text stype
         XSSFCellStyle textStype = xssBook.createCellStyle();
         setBorder(textStype, border);
-        if (backgroundColor != Excel.DEFAULT_COLOR) {
+        if (backgroundColor != IndexedColors.WHITE.getIndex()) {
             textStype.setAlignment(HSSFCellStyle.ALIGN_CENTER);
             textStype.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
             textStype.setFillForegroundColor(backgroundColor);
