@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.jindz.excel.anno.Validate;
-import com.jindz.excel.enums.ExceptionEnum;
 
 
 /**
@@ -140,11 +139,12 @@ public class BaseValidate {
 	}
 
 	private static void errorHander(Map<String, String> errors, Map<String, Object> comment) throws ValidateException {
-		ExceptionEnum en = (ExceptionEnum) comment.get("exception");
+		String errorCode = toString(comment.get("errorCode"));
+		String errorMsg = toString(comment.get("errorMsg"));
 		if (errors != null) {
-			errors.put(en.getErrorCode(), en.getErrorMsg());
+			errors.put(errorCode, errorMsg);
 		} else {
-			throw new ValidateException(en.getErrorCode(), en.getErrorMsg(), BaseValidate.class);
+			throw new ValidateException(errorCode, errorMsg, BaseValidate.class);
 		}
 	}
 

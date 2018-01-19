@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 import org.apache.poi.ss.usermodel.IndexedColors;
 
-import com.jindz.excel.enums.TextType;
+import com.jindz.excel.enums.DataType;
 
 /**
  * Excel定义
@@ -31,50 +31,36 @@ public @interface Excel {
 
 	/**
 	 * 下标
-	 * 
-	 * @return
 	 */
 	int index();
 
 	/**
 	 * 列名
-	 * 
-	 * @return
 	 */
 	String title() default "";
 
 	/**
 	 * 内容的类型
-	 * 
-	 * @return
 	 */
-	TextType textType() default TextType.STRING;
+	DataType dataType() default DataType.STRING;
 
 	/**
 	 * 如果列内容为时间，那么将按照此格式进行格式化
-	 * 
-	 * @return
 	 */
 	String timeFormat() default HH_MM;
 
 	/**
 	 * 如果列内容为日期，那么将按照此格式进行格式化
-	 * 
-	 * @return
 	 */
 	String CalendarFormat() default YYYY_MM_DD;
 
 	/**
 	 * 边框设置
-	 * 
-	 * @return
 	 */
 	short border() default Border.BORDER_THIN;
 
 	/**
 	 * 背景色设置
-	 * 
-	 * @return
 	 */
 	IndexedColors backgroundColor() default IndexedColors.WHITE;
 }

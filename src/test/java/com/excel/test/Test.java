@@ -5,33 +5,30 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.poi.ss.usermodel.IndexedColors;
-
-import com.jindz.excel.enums.TextType;
+import com.alibaba.fastjson.JSON;
 import com.jindz.excel.util.ExcelUtil;
 
 public class Test {
 
 	public static void main(String[] args) throws Exception {
 
-//		 TestVo test = new TestVo();
-//		
-//		 test.setStartDate(new Date());
-//		
-//		 test.setEndDate(new Date());
-//		
-//		 List<TestVo> list = new ArrayList<TestVo>();
-//		
-//		 list.add(test);
-//		
-//		 File file = ExcelUtil.create(list, TestVo.class, "d:/");
-//
-//		 System.out.println(file.getPath());
-		 
-//		 Type type = TextType.NUMBER;
-//		 System.out.println(type.getValue());
-		
+		TestVo test = new TestVo();
 
+		test.setStartDate(new Date());
+
+		test.setEndDate(new Date());
+
+		List<TestVo> list = new ArrayList<TestVo>();
+
+		list.add(test);
+
+		File file = ExcelUtil.create(list, TestVo.class, "d:/");
+		
+		System.out.println(file.getPath());
+
+		List<TestVo> lists = ExcelUtil.paser(file, TestVo.class, 1);
+		
+		System.out.println(JSON.toJSONString(lists));
 	}
 
 }

@@ -5,7 +5,7 @@ package com.jindz.excel.enums;
  * @author jindz
  *
  */
-public enum TextType {
+public enum DataType {
 	TIME(0), CALENDAR(1), NUMBER(2), STRING(3);
 
 	private Integer value;
@@ -18,7 +18,7 @@ public enum TextType {
 		this.value = value;
 	}
 
-	TextType(Integer value) {
+	DataType(Integer value) {
 		this.value = value;
 	}
 }

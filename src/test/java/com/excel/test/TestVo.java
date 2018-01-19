@@ -5,14 +5,17 @@ import java.util.Date;
 import org.apache.poi.ss.usermodel.IndexedColors;
 
 import com.jindz.excel.anno.Excel;
-import com.jindz.excel.enums.TextType;
+import com.jindz.excel.anno.Validate;
+import com.jindz.excel.enums.DataType;
 
 public class TestVo {
 
-	@Excel(index = 0, title = "开始时间", backgroundColor = IndexedColors.RED, textType = TextType.CALENDAR, CalendarFormat = "yyyy-MM-dd")
+	@Validate(errorCode="001",errorMsg="开始时间不能为空")
+	@Excel(index = 0, title = "开始时间", backgroundColor = IndexedColors.RED, dataType = DataType.CALENDAR, CalendarFormat = "yyyy-MM-dd")
 	private Date startDate;
 
-	@Excel(index = 1, title = "结束时间", textType = TextType.CALENDAR, CalendarFormat = "yyyy-MM-dd")
+	@Validate(errorCode="002",errorMsg="结束时间不能为空")
+	@Excel(index = 1, title = "结束时间", dataType = DataType.CALENDAR, CalendarFormat = "yyyy-MM-dd")
 	private Date endDate;
 
 	public Date getStartDate() {

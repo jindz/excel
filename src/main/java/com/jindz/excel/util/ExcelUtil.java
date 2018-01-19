@@ -40,8 +40,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.alibaba.fastjson.JSON;
 import com.jindz.excel.anno.BaseVo;
 import com.jindz.excel.anno.Excel;
-import com.jindz.excel.enums.ExceptionEnum;
-import com.jindz.excel.enums.TextType;
+import com.jindz.excel.enums.DataType;
 import com.jindz.excel.validate.ExcelValidate;
 import com.jindz.excel.validate.ValidateException;
 
@@ -90,6 +89,26 @@ public abstract class ExcelUtil {
             parseBy2003(validate,hssfWorkbook, classz, dataList, file, startLine);
         } else {
             parseBy2007(validate,xssfWorkbook, classz, dataList, file, startLine);
+        }
+        return dataList;
+    }
+    
+    public static <T> List<T> paser(File file, Class<T> classz, int startLine) throws Exception {
+
+        // 2003
+        HSSFWorkbook hssfWorkbook = null;
+        // 2007
+        XSSFWorkbook xssfWorkbook = null;
+        List<T> dataList = new ArrayList();
+        try {
+            hssfWorkbook = new HSSFWorkbook(new FileInputStream(file));
+        } catch (Exception e) {
+            xssfWorkbook = new XSSFWorkbook(new FileInputStream(file));
+        }
+        if (hssfWorkbook != null) {
+            parseBy2003(null,hssfWorkbook, classz, dataList, file, startLine);
+        } else {
+            parseBy2007(null,xssfWorkbook, classz, dataList, file, startLine);
         }
         return dataList;
     }
@@ -308,7 +327,7 @@ public abstract class ExcelUtil {
                 Field filed = getFieldByMethod(methodList.get(j), obj);
                 if (filed.isAnnotationPresent(Excel.class)) {
                     comment = parseComment(filed);
-                    TextType type = (TextType)comment.get("textType");
+                    DataType type = (DataType)comment.get("dataType");
                     // set text
                     setText(xssBook, sheet, i, toString(comment.get("title")), toInt(comment.get("index")), 
                     		value, type.getValue(), toString(comment.get("timeFormat")), toString(comment.get("CalendarFormat")));
@@ -371,8 +390,7 @@ public abstract class ExcelUtil {
 
     	if(!StringUtils.isEmpty(annoTitleName)){
     		if(!annoTitleName.trim().equals(excelTitleName==null?"":excelTitleName.trim())){
-        		throw new ValidateException(ExceptionEnum.EXCEL_TITLE_ERROR.getErrorCode(),
-        				ExceptionEnum.EXCEL_TITLE_ERROR.getErrorMsg(), ExcelUtil.class);
+        		throw new ValidateException("00001","Excel中的表头与代码注解中的表头不一致", ExcelUtil.class);
         	}
     	}
     
@@ -818,7 +836,7 @@ public abstract class ExcelUtil {
 
     private static void setStype(Map<String, Object> comment, XSSFWorkbook xssBook, XSSFSheet sheet, int row, int titleIndex) {
         short border = Short.valueOf(comment.get("border") + "");
-        TextType type = (TextType)comment.get("textType");
+        DataType type = (DataType)comment.get("dataType");
         IndexedColors colors = (IndexedColors)comment.get("backgroundColor");
         short backgroundColor = colors.getIndex();
         String timeFormat = toString(comment.get("timeFormat"));
@@ -912,7 +930,7 @@ public abstract class ExcelUtil {
 		if (obj != null) {
 			String str = String.valueOf(obj).trim();
 			try {
-				if(str.startsWith("Wed ") || str.startsWith("Thu ")){
+				if(str.startsWith("Wed ") || str.startsWith("Thu ") || str.startsWith("Fri ")){
 					SimpleDateFormat sf1 = new SimpleDateFormat("EEE MMM dd hh:mm:ss z yyyy", Locale.ENGLISH);
 					Date date = sf1.parse(str);
 					SimpleDateFormat sf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
