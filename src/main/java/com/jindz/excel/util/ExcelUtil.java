@@ -40,7 +40,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.alibaba.fastjson.JSON;
 import com.jindz.excel.anno.BaseVo;
 import com.jindz.excel.anno.Excel;
-import com.jindz.excel.enums.ExceptionMappingEnum;
+import com.jindz.excel.enums.ExcelExceptionEnum;
 import com.jindz.excel.enums.TextType;
 import com.jindz.excel.validate.ExcelValidate;
 import com.jindz.excel.validate.ValidateException;
@@ -371,8 +371,8 @@ public abstract class ExcelUtil {
 
     	if(!StringUtils.isEmpty(annoTitleName)){
     		if(!annoTitleName.trim().equals(excelTitleName==null?"":excelTitleName.trim())){
-        		throw new ValidateException(ExceptionMappingEnum.EXCEL_TITLE_ERROR.getErrorCode(),
-        				ExceptionMappingEnum.EXCEL_TITLE_ERROR.getErrorMsg(), ExcelUtil.class);
+        		throw new ValidateException(ExcelExceptionEnum.EXCEL_TITLE_ERROR.getErrorCode(),
+        				ExcelExceptionEnum.EXCEL_TITLE_ERROR.getErrorMsg(), ExcelUtil.class);
         	}
     	}
     

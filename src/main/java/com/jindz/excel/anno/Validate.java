@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.jindz.excel.enums.ExceptionMappingEnum;
+import com.jindz.excel.enums.ExcelExceptionEnum;
 
 
 /**
@@ -25,7 +25,7 @@ public @interface Validate {
 	/**
 	 * 校验失败，跑出的异常枚举
 	 */
-	ExceptionMappingEnum exception();
+	ExcelExceptionEnum exception();
 	
 	/**
 	 * 最小长度
