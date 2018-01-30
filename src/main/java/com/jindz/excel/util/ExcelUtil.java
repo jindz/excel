@@ -79,7 +79,7 @@ public abstract class ExcelUtil {
         HSSFWorkbook hssfWorkbook = null;
         // 2007
         XSSFWorkbook xssfWorkbook = null;
-        List<T> dataList = new ArrayList();
+        List<T> dataList = new ArrayList<T>();
         try {
         	xssfWorkbook = new XSSFWorkbook(new FileInputStream(file));
         } catch (Exception e) {
