@@ -9,9 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.jindz.excel.anno.Validate;
 import com.jindz.excel.exception.ValidateException;
-
 
 /**
  * 公共抽象校验类,检验业务bean中的字段
@@ -29,14 +30,11 @@ public class BeanValidate {
 	static final String ndy = "!=";
 	static final String day = ">";
 	static final String xy = "<";
-	static final String like = "%";// 包含，用于数组
-
-	private static final String key = "config";
-
-	private static ThreadLocal<ConcurrentHashMap<String, Object>> config = new ThreadLocal<ConcurrentHashMap<String, Object>>();
+	// 包含，用于数组
+	static final String like = "@";
 
 	/**
-	 * 校验对象所有必传字段是否存在null，存在nul直接抛出ValidateException TODO
+	 * 校验对象所有必传字段是否存在null，存在nul直接抛出ValidateException
 	 * 
 	 * @author jindz
 	 * @date 2017年10月25日 上午11:19:36
@@ -118,12 +116,14 @@ public class BeanValidate {
 					Integer minLen = toInteger(comment.get("minLen"));
 					if (minLen > 0) {
 						if (length < minLen) {
+							comment.put("errorMsg", fieldName + "小于最小长度" + minLen);
 							errorHander(errors, comment);
 						}
 					}
 					Integer maxLen = toInteger(comment.get("maxLen"));
 					if (maxLen > 0) {
 						if (length > maxLen) {
+							comment.put("errorMsg", fieldName + "超过最大长度" + maxLen);
 							errorHander(errors, comment);
 						}
 					}
@@ -132,7 +132,7 @@ public class BeanValidate {
 			} catch (ValidateException e) {
 				throw e;
 			} catch (Exception e) {
-				throw new ValidateException("1001", "系统异常!" + e.getMessage(), BeanValidate.class);
+				throw new ValidateException("1001", "系统异常." + e.getMessage(), BeanValidate.class);
 			}
 		}
 
@@ -147,6 +147,10 @@ public class BeanValidate {
 			throw new ValidateException(errorCode, errorMsg, BeanValidate.class);
 		}
 	}
+	
+	private static String getMethodName(String fid){
+		return "get" + fid.substring(0, 1).toUpperCase() + fid.substring(1, fid.length());
+	}
 
 	private static boolean iff(List<Method> methods, Field fields, Object target) throws Exception {
 		String iff = toString(parseComment(fields).get("iff"));
@@ -158,8 +162,7 @@ public class BeanValidate {
 				String fid = iff.split(dy)[0];
 				String value = iff.split(dy)[1];
 				// 获取实际值
-				String methodName = "get" + fid.substring(0, 1).toUpperCase() + fid.substring(1, fid.length());
-				Method method = getmethodByName(methods, methodName);
+				Method method = getmethodByName(methods, getMethodName(fid));
 				if (method != null) {
 					String factValue = toString(method.invoke(target));
 					if (factValue.equals(value)) {
@@ -170,8 +173,7 @@ public class BeanValidate {
 				String fid = iff.split(ndy)[0];
 				String value = iff.split(ndy)[1];
 				// 获取实际值
-				String methodName = "get" + fid.substring(0, 1).toUpperCase() + fid.substring(1, fid.length());
-				Method method = getmethodByName(methods, methodName);
+				Method method = getmethodByName(methods, getMethodName(fid));
 				if (method != null) {
 					String factValue = toString(method.invoke(target));
 					if (!factValue.equals(value)) {
@@ -182,8 +184,7 @@ public class BeanValidate {
 				String fid = iff.split(day)[0];
 				Integer value = toInteger(iff.split(day)[1]);
 				// 获取实际值
-				String methodName = "get" + fid.substring(0, 1).toUpperCase() + fid.substring(1, fid.length());
-				Method method = getmethodByName(methods, methodName);
+				Method method = getmethodByName(methods, getMethodName(fid));
 				if (method != null) {
 					Integer factValue = toInteger(method.invoke(target));
 					if (factValue > value) {
@@ -194,8 +195,7 @@ public class BeanValidate {
 				String fid = iff.split(xy)[0];
 				Integer value = toInteger(iff.split(xy)[1]);
 				// 获取实际值
-				String methodName = "get" + fid.substring(0, 1).toUpperCase() + fid.substring(1, fid.length());
-				Method method = getmethodByName(methods, methodName);
+				Method method = getmethodByName(methods, getMethodName(fid));
 				if (method != null) {
 					Integer factValue = toInteger(method.invoke(target));
 					if (factValue < value) {
@@ -205,9 +205,11 @@ public class BeanValidate {
 			} else if (iff.indexOf(like) != -1) {
 				String fid = iff.split(like)[0];
 				String value = toString(iff.split(like)[1]);
-				String methodName = "get" + fid.substring(0, 1).toUpperCase() + fid.substring(1, fid.length());
-				Method method = getmethodByName(methods, methodName);
+				Method method = getmethodByName(methods, getMethodName(fid));
 				if (method != null) {
+					if (!method.getReturnType().isArray()) {
+						throw new ValidateException("1003", fid + "不是数组类型", BeanValidate.class);
+					}
 					// 获取实际值
 					String[] factValue = (String[]) method.invoke(target);
 					if (factValue != null) {
@@ -221,6 +223,8 @@ public class BeanValidate {
 			} else {
 				throw new Exception("错误的校验条件定义:" + iff);
 			}
+		} catch (ValidateException e) {
+			throw e;
 		} catch (Exception e) {
 			throw new Exception("错误的校验条件定义:" + iff);
 		}
@@ -265,8 +269,7 @@ public class BeanValidate {
 				List<Method> list = new ArrayList<Method>();
 				String[] field = (String[]) config;
 				for (String s : field) {
-					list.add(target.getClass().getDeclaredMethod(
-							"get" + s.substring(0, 1).toUpperCase() + s.substring(1, s.length())));
+					list.add(target.getClass().getDeclaredMethod("get" + s.substring(0, 1).toUpperCase() + s.substring(1, s.length())));
 				}
 				return list;
 			}
@@ -296,6 +299,10 @@ public class BeanValidate {
 		return map;
 	}
 
+	private static final String key = "config";
+
+	private static ThreadLocal<ConcurrentHashMap<String, Object>> config = new ThreadLocal<ConcurrentHashMap<String, Object>>();
+
 	private static Object getConfig() {
 		return config.get() == null ? null : config.get().get(key);
 	}
@@ -309,7 +316,13 @@ public class BeanValidate {
 		}
 	}
 
-	public static BeanValidate config(String... field) {
+	public static BeanValidate specify(String... field) throws ValidateException {
+		if (field == null || field.length == 0) {
+			throw new ValidateException("1002", "指定字段不能为空", BeanValidate.class);
+		}
+		if (field.length == 1 && StringUtils.isEmpty(field[0])) {
+			throw new ValidateException("1002", "指定字段不能为空", BeanValidate.class);
+		}
 		if (config.get() == null) {
 			ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<String, Object>();
 			map.put(key, field);

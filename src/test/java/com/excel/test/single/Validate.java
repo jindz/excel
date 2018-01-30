@@ -16,7 +16,7 @@ public class Validate extends ExcelValidate<TestVo> {
 		try {
 			BeanValidate.validateField(t);
 		} catch (Exception e) {
-			this.getError().add(e.getMessage());
+			this.getErrors().add(e.getMessage());
 			return false;
 		}
 

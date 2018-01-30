@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 
 import com.jindz.excel.exception.ValidateException;
 
-
 /**
  * Excel导入数据校验抽象类
  * 
@@ -19,22 +18,20 @@ import com.jindz.excel.exception.ValidateException;
  */
 public abstract class ExcelValidate<T> {
 
-	private List<Object> error = new ArrayList<Object>();
+	private List<Object> errors = new ArrayList<Object>();
 
-	public List<Object> getError() {
-		return error;
+	public List<Object> getErrors() {
+		return errors;
 	}
 
 	/**
 	 * 
 	 * @author jindz
 	 * @date 2017年11月8日 下午1:40:02
-	 * @param t
-	 *            行数据
-	 * @param row
-	 *            行
-	 * @return
-	 * @throws ValidateException
+	 * @param t 行数据对昂
+	 * @param row 行数
+	 * @return boolean	-如果返回为true,该行数据会体现在最终返回的结果集中，否则相反
+	 * @throws ValidateException	如果抛出了异常，整个解析Excel过程将终止
 	 */
 	abstract public boolean validate(T t, Integer row) throws ValidateException;
 
