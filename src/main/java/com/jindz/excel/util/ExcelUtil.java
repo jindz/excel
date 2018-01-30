@@ -86,9 +86,9 @@ public abstract class ExcelUtil {
             xssfWorkbook = new XSSFWorkbook(new FileInputStream(file));
         }
         if (hssfWorkbook != null) {
-            parseBy2003(validate,hssfWorkbook, classz, dataList, file, startLine);
+        	parseBy2007(validate,xssfWorkbook, classz, dataList, file, startLine);
         } else {
-            parseBy2007(validate,xssfWorkbook, classz, dataList, file, startLine);
+            parseBy2003(validate,hssfWorkbook, classz, dataList, file, startLine);
         }
         return dataList;
     }
@@ -99,21 +99,21 @@ public abstract class ExcelUtil {
 
     public static Object getBook(File file) throws Exception {
         try {
-            // 2003
-            return new HSSFWorkbook(new FileInputStream(file));
-        } catch (Exception e) {
-            // 2007
+         // 2007
             return new XSSFWorkbook(new FileInputStream(file));
+        } catch (Exception e) {
+        	// 2003
+            return new HSSFWorkbook(new FileInputStream(file));
         }
     }
 
     public static int getNumberOfSheets(Object book) {
         if (book instanceof HSSFWorkbook) {
-            // 2003
-            return ((HSSFWorkbook) book).getNumberOfSheets();
-        } else if (book instanceof XSSFWorkbook) {
-            // 2007
+        	// 2007
             return ((XSSFWorkbook) book).getNumberOfSheets();
+        } else if (book instanceof XSSFWorkbook) {
+        	// 2003
+            return ((HSSFWorkbook) book).getNumberOfSheets();
         } else {
             return 0;
         }
@@ -121,11 +121,12 @@ public abstract class ExcelUtil {
 
     private static Object getSheetAt(Object book, int numSheet) {
         if (book instanceof HSSFWorkbook) {
-            // 2003
-            return ((HSSFWorkbook) book).getSheetAt(numSheet);
-        } else if (book instanceof XSSFWorkbook) {
-            // 2007
+        	// 2007
             return ((XSSFWorkbook) book).getSheetAt(numSheet);
+        } else if (book instanceof XSSFWorkbook) {
+            
+        	// 2003
+            return ((HSSFWorkbook) book).getSheetAt(numSheet);
         } else {
             return null;
         }
@@ -133,11 +134,12 @@ public abstract class ExcelUtil {
 
     private static String getSheetName(Object sheet) {
         if (sheet instanceof HSSFSheet) {
-            // 2003
-            return ((HSSFSheet) sheet).getSheetName();
-        } else if (sheet instanceof XSSFSheet) {
-            // 2007
+        	// 2007
             return ((XSSFSheet) sheet).getSheetName();
+        } else if (sheet instanceof XSSFSheet) {
+            
+        	// 2003
+            return ((HSSFSheet) sheet).getSheetName();
         } else {
             return "";
         }
@@ -145,11 +147,12 @@ public abstract class ExcelUtil {
 
     private static Integer getLastRowNum(Object sheet) {
         if (sheet instanceof HSSFSheet) {
-            // 2003
-            return ((HSSFSheet) sheet).getLastRowNum();
-        } else if (sheet instanceof XSSFSheet) {
-            // 2007
+        	// 2007
             return ((XSSFSheet) sheet).getLastRowNum();
+            
+        } else if (sheet instanceof XSSFSheet) {
+        	// 2003
+            return ((HSSFSheet) sheet).getLastRowNum();
         } else {
             return null;
         }
@@ -158,11 +161,11 @@ public abstract class ExcelUtil {
 
     private static Object getRow(Object sheet, int rowNum) {
         if (sheet instanceof HSSFSheet) {
-            // 2003
-            return ((HSSFSheet) sheet).getRow(rowNum);
-        } else if (sheet instanceof XSSFSheet) {
-            // 2007
+        	// 2007
             return ((XSSFSheet) sheet).getRow(rowNum);
+        } else if (sheet instanceof XSSFSheet) {
+        	// 2003
+            return ((HSSFSheet) sheet).getRow(rowNum);
         } else {
             return null;
         }
@@ -171,11 +174,11 @@ public abstract class ExcelUtil {
 
     private static Object getCell(Object row, int cell) {
         if (row instanceof XSSFRow) {
-            // 2007
-            return ((XSSFRow) row).getCell(cell);
-        } else if (row instanceof HSSFRow) {
-            // 2003
+        	// 2003
             return ((HSSFRow) row).getCell(cell);
+        } else if (row instanceof HSSFRow) {
+        	// 2007
+            return ((XSSFRow) row).getCell(cell);
         }
         return null;
 
