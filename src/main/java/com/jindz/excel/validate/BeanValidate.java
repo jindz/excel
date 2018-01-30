@@ -21,7 +21,6 @@ import com.jindz.excel.exception.ValidateException;
  * @author jindz</br>
  * @date 2017年10月25日 上午10:01:36</br>
  * 
- *       益丰公司版权所有 </br>
  */
 public class BeanValidate {
 
