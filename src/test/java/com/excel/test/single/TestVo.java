@@ -10,7 +10,7 @@ import com.jindz.excel.enums.DataType;
 
 public class TestVo {
 
-	@Validate(iff="ids@22")
+	@Validate(iff="text@22")
 	@Excel(index = 0, title = "开始时间", backgroundColor = IndexedColors.RED, dataType = DataType.CALENDAR, calendarFormat = "yyyy-MM-dd")
 	private Date startDate;
 

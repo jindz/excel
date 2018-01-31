@@ -211,7 +211,7 @@ public class BeanValidate {
 				Method method = getmethodByName(methods, getMethodName(fid));
 				if (method != null) {
 					if (!method.getReturnType().isArray()) {
-						throw new ValidateException("1003", fid + "不是数组类型", BeanValidate.class);
+						throw new ValidateException("1003", "错误的定义:"+iff+","+fid + "不是数组类型", BeanValidate.class);
 					}
 					// 获取实际值
 					String[] factValue = (String[]) method.invoke(target);

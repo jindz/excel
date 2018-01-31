@@ -62,9 +62,9 @@ public class Test {
 
 		test.setStartDate(new Date());
 
-//		test.setEndDate(new Date());
+		test.setEndDate(new Date());
 
-		test.setText("222");
+		test.setText("22");
 		
 		test.setIds(new String[]{"1","22"});
 		try {
