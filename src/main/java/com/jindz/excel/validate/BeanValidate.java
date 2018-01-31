@@ -107,7 +107,7 @@ public class BeanValidate {
 						if (obj == null || org.apache.commons.lang3.StringUtils.isEmpty(toString(obj))) {
 							// 不能为空的前置条件
 							if (iff(method, fields, target)) {
-								errorHander(errors, comment);
+								errorHander(fields,errors, comment);
 							}
 						}
 					}
@@ -117,14 +117,14 @@ public class BeanValidate {
 					if (minLen > 0) {
 						if (length < minLen) {
 							comment.put("errorMsg", fieldName + "小于最小长度" + minLen);
-							errorHander(errors, comment);
+							errorHander(fields,errors, comment);
 						}
 					}
 					Integer maxLen = toInteger(comment.get("maxLen"));
 					if (maxLen > 0) {
 						if (length > maxLen) {
 							comment.put("errorMsg", fieldName + "超过最大长度" + maxLen);
-							errorHander(errors, comment);
+							errorHander(fields,errors, comment);
 						}
 					}
 
@@ -138,9 +138,12 @@ public class BeanValidate {
 
 	}
 
-	private static void errorHander(Map<String, String> errors, Map<String, Object> comment) throws ValidateException {
+	private static void errorHander(Field field,Map<String, String> errors, Map<String, Object> comment) throws ValidateException {
 		String errorCode = toString(comment.get("errorCode"));
 		String errorMsg = toString(comment.get("errorMsg"));
+		if(StringUtils.isEmpty(errorMsg)){
+			errorMsg = field.getName()+"不能为空";
+		}
 		if (errors != null) {
 			errors.put(errorCode, errorMsg);
 		} else {

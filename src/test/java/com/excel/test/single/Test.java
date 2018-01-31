@@ -30,7 +30,7 @@ public class Test {
 
 			test.setEndDate(new Date());
 
-			test.setText("qqq");
+//			test.setText("qqq");
 
 			list.add(test);
 		}
@@ -60,11 +60,11 @@ public class Test {
 	public static void validate(){
 		TestVo test = new TestVo();
 
-//		test.setStartDate(new Date());
+		test.setStartDate(new Date());
 
-		test.setEndDate(new Date());
+//		test.setEndDate(new Date());
 
-		test.setText("22");
+		test.setText("222");
 		
 		test.setIds(new String[]{"1","22"});
 		try {

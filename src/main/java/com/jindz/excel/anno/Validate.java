@@ -22,12 +22,12 @@ public @interface Validate {
 	/**
 	 * 校验失败，抛出的异常编码
 	 */
-	String errorCode();
+	String errorCode() default "";
 
 	/**
 	 * 校验失败，抛出的异常消息
 	 */
-	String errorMsg();
+	String errorMsg() default "";
 
 	/**
 	 * 最小长度

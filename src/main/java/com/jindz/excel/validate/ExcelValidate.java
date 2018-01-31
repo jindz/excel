@@ -2,8 +2,6 @@ package com.jindz.excel.validate;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.jindz.excel.exception.ValidateException;
 

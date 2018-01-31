@@ -10,11 +10,11 @@ import com.jindz.excel.enums.DataType;
 
 public class TestVo {
 
-	@Validate(errorCode = "001", errorMsg = "开始时间不能为空",iff="text@22")
+	@Validate(iff="ids@22")
 	@Excel(index = 0, title = "开始时间", backgroundColor = IndexedColors.RED, dataType = DataType.CALENDAR, calendarFormat = "yyyy-MM-dd")
 	private Date startDate;
 
-	@Validate(errorCode = "002", errorMsg = "结束时间不能为空")
+	@Validate
 	@Excel(index = 1, title = "结束时间", dataType = DataType.CALENDAR, calendarFormat = "yyyy-MM-dd")
 	private Date endDate;
 
