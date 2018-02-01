@@ -1,7 +1,7 @@
 package com.excel.test.batchSheet.vo;
 
-import com.jindz.excel.anno.BaseVo;
 import com.jindz.excel.anno.Excel;
+import com.jindz.excel.model.BaseVo;
 
 public class Vo2 extends BaseVo{
 	

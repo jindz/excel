@@ -8,6 +8,7 @@ import java.lang.annotation.Target;
 import org.apache.poi.ss.usermodel.IndexedColors;
 
 import com.jindz.excel.enums.DataType;
+import com.jindz.excel.model.Border;
 
 /**
  * Excel定义
