@@ -119,7 +119,7 @@ public abstract class ExcelUtil {
         }
     }
 
-    public static Object getSheetAt(Object book, int numSheet) {
+    private static Object getSheetAt(Object book, int numSheet) {
         if (book instanceof HSSFWorkbook) {
             // 2003
             return ((HSSFWorkbook) book).getSheetAt(numSheet);
@@ -131,7 +131,7 @@ public abstract class ExcelUtil {
         }
     }
 
-    public static String getSheetName(Object sheet) {
+    private static String getSheetName(Object sheet) {
         if (sheet instanceof HSSFSheet) {
             // 2003
             return ((HSSFSheet) sheet).getSheetName();
@@ -143,7 +143,7 @@ public abstract class ExcelUtil {
         }
     }
 
-    public static Integer getLastRowNum(Object sheet) {
+    private static Integer getLastRowNum(Object sheet) {
         if (sheet instanceof HSSFSheet) {
             // 2003
             return ((HSSFSheet) sheet).getLastRowNum();
@@ -156,7 +156,7 @@ public abstract class ExcelUtil {
 
     }
 
-    public static Object getRow(Object sheet, int rowNum) {
+    private static Object getRow(Object sheet, int rowNum) {
         if (sheet instanceof HSSFSheet) {
             // 2003
             return ((HSSFSheet) sheet).getRow(rowNum);
@@ -169,7 +169,7 @@ public abstract class ExcelUtil {
 
     }
 
-    public static Object getCell(Object row, int cell) {
+    private static Object getCell(Object row, int cell) {
         if (row instanceof XSSFRow) {
             // 2007
             return ((XSSFRow) row).getCell(cell);
@@ -338,7 +338,7 @@ public abstract class ExcelUtil {
         return file;
     }
     
-    public static Field getFieldByMethod(Method method,Object target) throws NoSuchFieldException, SecurityException{
+    private static Field getFieldByMethod(Method method,Object target) throws NoSuchFieldException, SecurityException{
     	String fieldName = method.getName().split("get")[1];
 		String first = fieldName.substring(0, 1).toLowerCase();
 		String last = fieldName.substring(1, fieldName.length());
@@ -353,7 +353,7 @@ public abstract class ExcelUtil {
      * @param FristRow 行对象
      * @return
      */
-    public static String getFristRowTitleName(int cell,XSSFRow fristRow){
+    private static String getFristRowTitleName(int cell,XSSFRow fristRow){
     	XSSFCell xssfCell = fristRow.getCell(cell);
     	return getValue(xssfCell);
     }
@@ -366,7 +366,7 @@ public abstract class ExcelUtil {
      * @param HSSFRow 行对象
      * @return
      */
-    public static String getFristRowTitleName(int cell,HSSFRow fristRow){
+    private static String getFristRowTitleName(int cell,HSSFRow fristRow){
     	HSSFCell xssfCell = fristRow.getCell(cell);
     	return getValue(xssfCell);
     }
@@ -378,7 +378,7 @@ public abstract class ExcelUtil {
      * @param excelTitleName
      * @param annoTitleName
      */
-    public static void validateTitleName(String excelTitleName,String annoTitleName) throws ValidateException{
+    private static void validateTitleName(String excelTitleName,String annoTitleName) throws ValidateException{
 
     	if(!StringUtils.isEmpty(annoTitleName)){
     		if(!annoTitleName.trim().equals(excelTitleName==null?"":excelTitleName.trim())){
@@ -396,7 +396,7 @@ public abstract class ExcelUtil {
      * @createDate 2015-9-22 13:28:22
      * 
      */
-    public static <T> void parseBy2007(ExcelValidate validate,XSSFWorkbook xssfWorkbook, Class<?> classz, List<T> dataList, File file, int startLine)
+    private static <T> void parseBy2007(ExcelValidate validate,XSSFWorkbook xssfWorkbook, Class<?> classz, List<T> dataList, File file, int startLine)
             throws Exception {
         for (int numSheet = 0; numSheet < xssfWorkbook.getNumberOfSheets(); numSheet++) {
             XSSFSheet xssfSheet = xssfWorkbook.getSheetAt(numSheet);
@@ -448,7 +448,7 @@ public abstract class ExcelUtil {
      * @createDate 2015-9-22 13:28:22
      * 
      */
-    public static <T> void parseSheet(ExcelValidate validate,Object sheet, Class<?> classz, List<T> dataList, int startLine) throws Exception {
+    private static <T> void parseSheet(ExcelValidate validate,Object sheet, Class<?> classz, List<T> dataList, int startLine) throws Exception {
         if (sheet == null) {
             return;
         }
@@ -494,7 +494,7 @@ public abstract class ExcelUtil {
      * @createDate 2015-9-22 13:28:22
      * 
      */
-    public static <T> void parseSheet2(ExcelValidate validate,Object sheet, Class<?> classz, List<T> dataList, int startLine, int endLine)
+    private static <T> void parseSheet2(ExcelValidate validate,Object sheet, Class<?> classz, List<T> dataList, int startLine, int endLine)
             throws Exception {
         if (sheet == null) {
             return;
@@ -543,7 +543,7 @@ public abstract class ExcelUtil {
      * @createDate 2015-9-22 13:28:22
      * 
      */
-    public static <T> void parseBy2003(ExcelValidate validate,HSSFWorkbook hssfWorkbook, Class<?> classz, List<T> dataList, File file, int startLine)
+    private static <T> void parseBy2003(ExcelValidate validate,HSSFWorkbook hssfWorkbook, Class<?> classz, List<T> dataList, File file, int startLine)
             throws Exception {
         for (int numSheet = 0; numSheet < hssfWorkbook.getNumberOfSheets(); numSheet++) {
             HSSFSheet xssfSheet = hssfWorkbook.getSheetAt(numSheet);
@@ -597,7 +597,7 @@ public abstract class ExcelUtil {
      * @createDate 2015-9-22 13:28:22
      * 
      */
-    public static <T> void parseSheetBy2003(ExcelValidate validate,HSSFSheet xssfSheet, Class<?> classz, List<T> dataList, File file, int startLine)
+    private static <T> void parseSheetBy2003(ExcelValidate validate,HSSFSheet xssfSheet, Class<?> classz, List<T> dataList, File file, int startLine)
             throws Exception {
         if (xssfSheet == null) {
             return;
@@ -642,7 +642,7 @@ public abstract class ExcelUtil {
      * @return
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public static Object generateParameter(String valueStr, Method method,Map<String, Object> comment) {
+    private static Object generateParameter(String valueStr, Method method,Map<String, Object> comment) {
 
         Object valObj = null;
         Class claz = method.getReturnType();
@@ -662,7 +662,7 @@ public abstract class ExcelUtil {
         return valObj;
     }
     
-    public static String getTimeFormat(Map<String, Object> comment){
+    private static String getTimeFormat(Map<String, Object> comment){
     	String format =  toString(comment.get("calendarFormat"));
     	if(format != null){
     		return format;
@@ -670,7 +670,7 @@ public abstract class ExcelUtil {
     	return DateUtil.DATE_FORMATTER;
     }
 
-    public static boolean isNullRow(Object row) {
+    private static boolean isNullRow(Object row) {
         if (row instanceof XSSFRow) {
             // 2007
             return isNullRow((XSSFRow) row);
@@ -681,7 +681,7 @@ public abstract class ExcelUtil {
         return true;
     }
     
-    public static boolean isNullRow(XSSFRow row) {
+    private static boolean isNullRow(XSSFRow row) {
         boolean isNullRow = true;
         try {
             int lastNum = row.getLastCellNum();
@@ -697,7 +697,7 @@ public abstract class ExcelUtil {
         return isNullRow;
     }
 
-    public static boolean isNullRow(HSSFRow row) {
+    private static boolean isNullRow(HSSFRow row) {
         boolean isNullRow = true;
         try {
             int lastNum = row.getLastCellNum();
@@ -713,7 +713,7 @@ public abstract class ExcelUtil {
         return isNullRow;
     }
 
-    public static String getValue(Object cell) {
+    private static String getValue(Object cell) {
 
         if (cell instanceof XSSFCell) {
             // 2007
@@ -726,7 +726,7 @@ public abstract class ExcelUtil {
 
     }
 
-    public static String getValue(HSSFCell hssfCell) {
+    private static String getValue(HSSFCell hssfCell) {
         try {
             short format = hssfCell.getCellStyle().getDataFormat();
             SimpleDateFormat sdf = null;
@@ -758,7 +758,7 @@ public abstract class ExcelUtil {
         return null;
     }
 
-    public static String getValue(XSSFCell xssfCell) {
+    private static String getValue(XSSFCell xssfCell) {
         try {
             short format = xssfCell.getCellStyle().getDataFormat();
             SimpleDateFormat sdf = null;
@@ -792,7 +792,7 @@ public abstract class ExcelUtil {
 
     }
 
-    public static void setText(XSSFWorkbook xssBook, XSSFSheet sheet, int row, String title, int titleIndex, String value,
+    private static void setText(XSSFWorkbook xssBook, XSSFSheet sheet, int row, String title, int titleIndex, String value,
             Integer valueType, String timeFormat, String calendarFormat) throws Exception {
         if (row == 0) {
             if (sheet.getRow(0) != null) {
@@ -837,7 +837,7 @@ public abstract class ExcelUtil {
         }
     }
 
-    public static void setStype(Map<String, Object> comment, XSSFWorkbook xssBook, XSSFSheet sheet, int row, int titleIndex) {
+    private static void setStype(Map<String, Object> comment, XSSFWorkbook xssBook, XSSFSheet sheet, int row, int titleIndex) {
         short border = Short.valueOf(comment.get("border") + "");
         DataType type = (DataType)comment.get("dataType");
         IndexedColors colors = (IndexedColors)comment.get("backgroundColor");
@@ -887,7 +887,7 @@ public abstract class ExcelUtil {
         cell.setCellStyle(textStype);
     }
 
-    public static Map<String, Object> parseComment(Field filed) throws Exception {
+    private static Map<String, Object> parseComment(Field filed) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		Annotation p = filed.getAnnotation(Excel.class);
@@ -903,7 +903,7 @@ public abstract class ExcelUtil {
 	
     }
 
-    public static List<Method> getmethodList(String flag, Method[] method) {
+    private static List<Method> getmethodList(String flag, Method[] method) {
         List<Method> methodList = new ArrayList<Method>();
         for (int i = 0; i < method.length; i++) {
             if (method[i].getName().indexOf(flag) != -1) {
@@ -913,7 +913,7 @@ public abstract class ExcelUtil {
         return methodList;
     }
 
-    public static void setBorder(XSSFCellStyle stype, short border) {
+    private static void setBorder(XSSFCellStyle stype, short border) {
         stype.setBorderTop(border);
         stype.setBorderBottom(border);
         stype.setBorderLeft(border);
@@ -921,7 +921,7 @@ public abstract class ExcelUtil {
         stype.setAlignment(HSSFCellStyle.ALIGN_CENTER);
     }
 
-    public static Class<?> getType(Class<?> classz) {
+    private static Class<?> getType(Class<?> classz) {
         // Class <?> entityClass = (Class <?>) ((ParameterizedType)
         // getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         // log.info("create Excel by entityClass:{}",entityClass.getName());
