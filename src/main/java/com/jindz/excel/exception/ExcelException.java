@@ -6,7 +6,7 @@ package com.jindz.excel.exception;
  * @description
  * @date 2017/10/30
  */
-public class ValidateException extends Exception {
+public class ExcelException extends Exception {
 	private String code;
 	private String message;
 	private Class clazz;
@@ -35,7 +35,7 @@ public class ValidateException extends Exception {
 		this.clazz = clazz;
 	}
 
-	public ValidateException() {
+	public ExcelException() {
 	}
 
 	/**
@@ -45,7 +45,7 @@ public class ValidateException extends Exception {
 	 * @param message 消息
 	 * @param clazz  可以告诉捕获错误的开发者具体是哪一个业务模块出现问题的Class
 	 */
-	public ValidateException(String code, String message, Class clazz) {
+	public ExcelException(String code, String message, Class clazz) {
 		super();
 		this.code = code;
 		this.message = message;

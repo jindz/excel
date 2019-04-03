@@ -40,7 +40,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.alibaba.fastjson.JSON;
 import com.jindz.excel.anno.Excel;
 import com.jindz.excel.enums.DataType;
-import com.jindz.excel.exception.ValidateException;
+import com.jindz.excel.exception.ExcelException;
 import com.jindz.excel.model.BaseVo;
 import com.jindz.excel.validate.ExcelValidate;
 
@@ -380,11 +380,11 @@ public abstract class ExcelUtil {
      * @param excelTitleName
      * @param annoTitleName
      */
-    private static void validateTitleName(String excelTitleName,String annoTitleName) throws ValidateException{
+    private static void validateTitleName(String excelTitleName,String annoTitleName) throws ExcelException{
 
      if(!StringUtils.isEmpty(annoTitleName)){
       if(!annoTitleName.trim().equals(excelTitleName==null?"":excelTitleName.trim())){
-          throw new ValidateException("00001","Excel中的表头["+excelTitleName+"]与代码注解中的表头["+annoTitleName+"]不一致", ExcelUtil.class);
+          throw new ExcelException("00001","Excel中的表头["+excelTitleName+"]与代码注解中的表头["+annoTitleName+"]不一致", ExcelUtil.class);
          }
      }
     
@@ -425,7 +425,7 @@ public abstract class ExcelUtil {
                                     method.get(i).getReturnType());
                             setMethod.invoke(object, generateParameter(value, method.get(i),conment));
                         }
-                    } catch(ValidateException e){
+                    } catch(ExcelException e){
                      throw e;
                     } catch (Exception e) {
                         // Ignore
@@ -572,7 +572,7 @@ public abstract class ExcelUtil {
                                     method.get(i).getReturnType());
                             setMethod.invoke(object, generateParameter(value, method.get(i),conment));
                         }
-                    } catch(ValidateException e){
+                    } catch(ExcelException e){
                      throw e;
                     } catch (Exception e) {
                         // Ignore
