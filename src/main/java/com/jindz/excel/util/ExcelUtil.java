@@ -45,19 +45,21 @@ import com.jindz.excel.model.BaseVo;
 import com.jindz.excel.validate.ExcelValidate;
 
 /**
- * Excel导入导出
- * 
- * @author jindezhi
- * 
- * @createDate 2015-9-22 15:01:29
- * 
- */
+* Excel导入导出
+* 
+* @author jindezhi
+* 
+* @createDate 2015-9-22 15:01:29
+* 
+*/
 public abstract class ExcelUtil {
-	
+ 
 
     public static final String FORMAT_TIME = "HH:mm";
 
     public static final String FORMAT_CALENDAR = "yyyy-MM-dd";
+    
+    public static final String FORMAT_FULL = "yyyy-MM-dd HH:mm:ss";
 
     /**
      * @desc 解析 excel
@@ -81,7 +83,7 @@ public abstract class ExcelUtil {
         XSSFWorkbook xssfWorkbook = null;
         List<T> dataList = new ArrayList<T>();
         try {
-        	xssfWorkbook = new XSSFWorkbook(new FileInputStream(file));
+         xssfWorkbook = new XSSFWorkbook(new FileInputStream(file));
         } catch (Exception e) {
             hssfWorkbook = new HSSFWorkbook(new FileInputStream(file));
         }
@@ -94,7 +96,7 @@ public abstract class ExcelUtil {
     }
     
     public static <T> List<T> paser(File file, Class<T> classz, int startLine) throws Exception {
-    	return paser(null, file, classz, startLine);
+     return paser(null, file, classz, startLine);
     }
 
     public static Object getBook(File file) throws Exception {
@@ -228,7 +230,7 @@ public abstract class ExcelUtil {
     }
     
     public static Map<String, List<Object>> paserBatchSheet(File file, int startLine, String packageName) throws Exception {
-    	return paserBatchSheet(null, file, startLine, packageName);
+     return paserBatchSheet(null, file, startLine, packageName);
     }
 
     /**
@@ -285,7 +287,7 @@ public abstract class ExcelUtil {
     }
     
     public static Map<String, List<Object>> paserBatchSheet(File file,Map<String, String> mapping) throws Exception {
-    	return paserBatchSheet(null, file, mapping);
+     return paserBatchSheet(null, file, mapping);
     }
 
     /**
@@ -322,7 +324,7 @@ public abstract class ExcelUtil {
                     DataType type = (DataType)comment.get("dataType");
                     // set text
                     setText(xssBook, sheet, i, toString(comment.get("title")), toInt(comment.get("index")), 
-                    		value, type.getValue(), toString(comment.get("timeFormat")), toString(comment.get("calendarFormat")));
+                      value, type.getValue(), toString(comment.get("timeFormat")), toString(comment.get("calendarFormat")));
                     // set Style
                     if (comment != null) {
                         setStype(comment, xssBook, sheet, i, toInt(comment.get("index")));
@@ -339,10 +341,10 @@ public abstract class ExcelUtil {
     }
     
     private static Field getFieldByMethod(Method method,Object target) throws NoSuchFieldException, SecurityException{
-    	String fieldName = method.getName().split("get")[1];
-		String first = fieldName.substring(0, 1).toLowerCase();
-		String last = fieldName.substring(1, fieldName.length());
-		return target.getClass().getDeclaredField(first + last);
+     String fieldName = method.getName().split("get")[1];
+  String first = fieldName.substring(0, 1).toLowerCase();
+  String last = fieldName.substring(1, fieldName.length());
+  return target.getClass().getDeclaredField(first + last);
     }
     
     /**
@@ -354,8 +356,8 @@ public abstract class ExcelUtil {
      * @return
      */
     private static String getFristRowTitleName(int cell,XSSFRow fristRow){
-    	XSSFCell xssfCell = fristRow.getCell(cell);
-    	return getValue(xssfCell);
+     XSSFCell xssfCell = fristRow.getCell(cell);
+     return getValue(xssfCell);
     }
     
     /**
@@ -367,8 +369,8 @@ public abstract class ExcelUtil {
      * @return
      */
     private static String getFristRowTitleName(int cell,HSSFRow fristRow){
-    	HSSFCell xssfCell = fristRow.getCell(cell);
-    	return getValue(xssfCell);
+     HSSFCell xssfCell = fristRow.getCell(cell);
+     return getValue(xssfCell);
     }
     
     /**
@@ -380,11 +382,11 @@ public abstract class ExcelUtil {
      */
     private static void validateTitleName(String excelTitleName,String annoTitleName) throws ValidateException{
 
-    	if(!StringUtils.isEmpty(annoTitleName)){
-    		if(!annoTitleName.trim().equals(excelTitleName==null?"":excelTitleName.trim())){
-        		throw new ValidateException("00001","Excel中的表头与代码注解中的表头不一致", ExcelUtil.class);
-        	}
-    	}
+     if(!StringUtils.isEmpty(annoTitleName)){
+      if(!annoTitleName.trim().equals(excelTitleName==null?"":excelTitleName.trim())){
+          throw new ValidateException("00001","Excel中的表头["+excelTitleName+"]与代码注解中的表头["+annoTitleName+"]不一致", ExcelUtil.class);
+         }
+     }
     
     }
 
@@ -412,30 +414,30 @@ public abstract class ExcelUtil {
                 List<Method> method = getmethodList("get", getType(classz).getMethods());
                 for (int i = 0; i < method.size(); i++) {
                     try {
-                    	Field field = getFieldByMethod(method.get(i), object);
+                     Field field = getFieldByMethod(method.get(i), object);
                         if (field.isAnnotationPresent(Excel.class)) {
-                        	Map<String, Object> conment = parseComment(field);
+                         Map<String, Object> conment = parseComment(field);
                             int cell = toInt(conment.get("index"));
                             validateTitleName(getFristRowTitleName(cell, xssfSheet.getRow(startLine-1)), 
-                            		toString(parseComment(field).get("title")));
+                              toString(parseComment(field).get("title")));
                             String value = getValue(xssfRow.getCell(cell));
                             Method setMethod = getType(classz).getDeclaredMethod("set" + method.get(i).getName().split("get")[1],
                                     method.get(i).getReturnType());
                             setMethod.invoke(object, generateParameter(value, method.get(i),conment));
                         }
                     } catch(ValidateException e){
-                    	throw e;
+                     throw e;
                     } catch (Exception e) {
                         // Ignore
                     }
                 }
                 boolean falg = true;
                 if(validate!=null){
-                	falg = validate.validate(object,rowNum);
+                 falg = validate.validate(object,rowNum);
                 }
                 if(falg){
-            		dataList.add((T) object);
-            	}
+              dataList.add((T) object);
+             }
             }
         }
     }
@@ -462,9 +464,9 @@ public abstract class ExcelUtil {
             List<Method> method = getmethodList("get", getType(classz).getMethods());
             for (int i = 0; i < method.size(); i++) {
                 try {
-                	Field field = getFieldByMethod(method.get(i), object);
+                 Field field = getFieldByMethod(method.get(i), object);
                     if (field.isAnnotationPresent(Excel.class)) {
-                    	Map<String, Object> conment = parseComment(field);
+                     Map<String, Object> conment = parseComment(field);
                         int cell = toInt(conment.get("index"));
                         String value = getValue(getCell(row, cell));
                         Method setMethod = getType(classz).getDeclaredMethod("set" + method.get(i).getName().split("get")[1],
@@ -477,11 +479,11 @@ public abstract class ExcelUtil {
             }
             boolean falg = true;
             if(validate!=null){
-            	falg = validate.validate(object,rowNum);
+             falg = validate.validate(object,rowNum);
             }
             if(falg){
-        		dataList.add((T) object);
-        	}
+          dataList.add((T) object);
+         }
         }
 
     }
@@ -509,9 +511,9 @@ public abstract class ExcelUtil {
             List<Method> method = getmethodList("get", getType(classz).getMethods());
             for (int i = 0; i < method.size(); i++) {
                 try {
-                	Field field = getFieldByMethod(method.get(i), object);
+                 Field field = getFieldByMethod(method.get(i), object);
                     if (field.isAnnotationPresent(Excel.class)) {
-                    	Map<String, Object> conment = parseComment(field);
+                     Map<String, Object> conment = parseComment(field);
                         int cell = toInt(conment.get("index"));
                         String value = getValue(getCell(row, cell));
                         Method setMethod = getType(classz).getDeclaredMethod("set" + method.get(i).getName().split("get")[1],
@@ -524,11 +526,11 @@ public abstract class ExcelUtil {
             }
             boolean falg = true;
             if(validate!=null){
-            	falg = validate.validate(object,rowNum);
+             falg = validate.validate(object,rowNum);
             }
             if(falg){
-        		dataList.add((T) object);
-        	}
+          dataList.add((T) object);
+         }
         }
 
     }
@@ -559,30 +561,30 @@ public abstract class ExcelUtil {
                 List<Method> method = getmethodList("get", getType(classz).getMethods());
                 for (int i = 0; i < method.size(); i++) {
                     try {
-                    	Field field = getFieldByMethod(method.get(i), object);
+                     Field field = getFieldByMethod(method.get(i), object);
                         if (field.isAnnotationPresent(Excel.class)) {
                             Map<String, Object> conment = parseComment(field);
                             int cell = toInt(conment.get("index"));
                             validateTitleName(getFristRowTitleName(cell, xssfSheet.getRow(startLine-1)), 
-                            		toString(parseComment(field).get("title")));
+                              toString(parseComment(field).get("title")));
                             String value = getValue(xssfRow.getCell(cell));
                             Method setMethod = getType(classz).getDeclaredMethod("set" + method.get(i).getName().split("get")[1],
                                     method.get(i).getReturnType());
                             setMethod.invoke(object, generateParameter(value, method.get(i),conment));
                         }
                     } catch(ValidateException e){
-                    	throw e;
+                     throw e;
                     } catch (Exception e) {
                         // Ignore
                     }
                 }
                 boolean falg = true;
                 if(validate!=null){
-                	falg = validate.validate(object,rowNum);
+                 falg = validate.validate(object,rowNum);
                 }
                 if(falg){
-            		dataList.add((T) object);
-            	}
+              dataList.add((T) object);
+             }
             }
         }
     }
@@ -611,7 +613,7 @@ public abstract class ExcelUtil {
             List<Method> method = getmethodList("get", getType(classz).getMethods());
             for (int i = 0; i < method.size(); i++) {
                 try {
-                	Field field = getFieldByMethod(method.get(i), object);
+                 Field field = getFieldByMethod(method.get(i), object);
                     if (field.isAnnotationPresent(Excel.class)) {
                         Map<String, Object> conment = parseComment(field);
                         int cell = toInt(conment.get("index"));
@@ -626,11 +628,11 @@ public abstract class ExcelUtil {
             }
             boolean falg = true;
             if(validate!=null){
-            	falg = validate.validate(object,rowNum);
+             falg = validate.validate(object,rowNum);
             }
             if(falg){
-        		dataList.add((T) object);
-        	}
+          dataList.add((T) object);
+         }
         }
     }
 
@@ -663,11 +665,11 @@ public abstract class ExcelUtil {
     }
     
     private static String getTimeFormat(Map<String, Object> comment){
-    	String format =  toString(comment.get("calendarFormat"));
-    	if(format != null){
-    		return format;
-    	}
-    	return DateUtil.DATE_FORMATTER;
+     String format =  toString(comment.get("calendarFormat"));
+     if(format != null){
+      return format;
+     }
+     return DateUtil.DATE_FORMATTER;
     }
 
     private static boolean isNullRow(Object row) {
@@ -768,6 +770,8 @@ public abstract class ExcelUtil {
             } else if (format == 20 || format == 32) {
                 // 时间
                 sdf = new SimpleDateFormat(FORMAT_TIME);
+            }else if(format == 22){
+             sdf = new SimpleDateFormat(FORMAT_FULL);
             } else {
                 xssfCell.setCellType(Cell.CELL_TYPE_STRING);
                 return String.valueOf(xssfCell.getStringCellValue());
@@ -889,18 +893,18 @@ public abstract class ExcelUtil {
 
     private static Map<String, Object> parseComment(Field filed) throws Exception {
 
-		Map<String, Object> map = new HashMap<String, Object>();
-		Annotation p = filed.getAnnotation(Excel.class);
-		Method[] methods = p.getClass().getDeclaredMethods();
-		for (int i = 0; i < methods.length; i++) {
-			try {
-				map.put(methods[i].getName(), methods[i].invoke(p));
-			} catch (Exception e) {
-				// Ignore
-			}
-		}
-		return map;
-	
+  Map<String, Object> map = new HashMap<String, Object>();
+  Annotation p = filed.getAnnotation(Excel.class);
+  Method[] methods = p.getClass().getDeclaredMethods();
+  for (int i = 0; i < methods.length; i++) {
+   try {
+    map.put(methods[i].getName(), methods[i].invoke(p));
+   } catch (Exception e) {
+    // Ignore
+   }
+  }
+  return map;
+ 
     }
 
     private static List<Method> getmethodList(String flag, Method[] method) {
@@ -930,28 +934,28 @@ public abstract class ExcelUtil {
     }
     
     public static String toString(Object obj) {
-		if (obj != null) {
-			String str = String.valueOf(obj).trim();
-			try {
-				if(str.startsWith("Wed ") || str.startsWith("Thu ") || str.startsWith("Fri ")){
-					SimpleDateFormat sf1 = new SimpleDateFormat("EEE MMM dd hh:mm:ss z yyyy", Locale.ENGLISH);
-					Date date = sf1.parse(str);
-					SimpleDateFormat sf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-					return sf2.format(date);
-				}
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			return str;
-		}
-		return "";
-	}
+  if (obj != null) {
+   String str = String.valueOf(obj).trim();
+   try {
+    if(str.startsWith("Wed ") || str.startsWith("Thu ") || str.startsWith("Fri ")){
+     SimpleDateFormat sf1 = new SimpleDateFormat("EEE MMM dd hh:mm:ss z yyyy", Locale.ENGLISH);
+     Date date = sf1.parse(str);
+     SimpleDateFormat sf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+     return sf2.format(date);
+    }
+   } catch (ParseException e) {
+    e.printStackTrace();
+   }
+   return str;
+  }
+  return "";
+ }
 
-	public static Integer toInt(Object obj) {
-		if (obj != null) {
-			return Integer.valueOf(toString(obj));
-		}
-		return null;
-	}
+ public static Integer toInt(Object obj) {
+  if (obj != null) {
+   return Integer.valueOf(toString(obj));
+  }
+  return null;
+ }
 
-}
+} 
