@@ -875,37 +875,50 @@ public abstract class ExcelUtil {
 			headStype.setFont(font);
 			sheet.getRow(0).getCell(titleIndex).setCellStyle(headStype);
 		}
-
 		// text stype
-		XSSFCellStyle textStype = xssBook.createCellStyle();
-		setBorder(textStype, border);
-		if (backgroundColor != IndexedColors.WHITE.getIndex()) {
-			textStype.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-			textStype.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-			textStype.setFillForegroundColor(backgroundColor);
-		}
+		XSSFCellStyle textStypes = getStypeCache(border, backgroundColor, type, timeFormat, calendarFormat, xssBook);
+		sheet.getRow(row + 1).getCell(titleIndex).setCellStyle(textStypes);
+	}
+	
+	public static Map<String,XSSFCellStyle> stypeCache = new HashMap<String, XSSFCellStyle>();
 
-		XSSFCell cell = sheet.getRow(row + 1).getCell(titleIndex);
-		XSSFDataFormat format = xssBook.createDataFormat();
-		try {
-			switch (type.getValue()) {
-			case Excel.calendar:
-				textStype.setDataFormat(format.getFormat(calendarFormat));
-				break;
-			case Excel.time:
-				textStype.setDataFormat(format.getFormat(timeFormat));
-				break;
-			case Excel.number:
-				// When you need to improve
-				break;
-			case Excel.string:
-				// When you need to improve
-				break;
+	private synchronized static XSSFCellStyle getStypeCache(short border,
+			short backgroundColor, DataType type, String timeFormat,
+			String calendarFormat, XSSFWorkbook xssBook) {
+		String key = border + backgroundColor + type.getValue() + timeFormat
+				+ calendarFormat + xssBook.hashCode();
+
+		if (stypeCache.get(key) == null) {
+			XSSFCellStyle textStype = xssBook.createCellStyle();
+			setBorder(textStype, border);
+			if (backgroundColor != IndexedColors.WHITE.getIndex()) {
+				textStype.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+				textStype.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+				textStype.setFillForegroundColor(backgroundColor);
 			}
-		} catch (Exception e) {
-			// e.printStackTrace();
+
+			XSSFDataFormat format = xssBook.createDataFormat();
+			try {
+				switch (type.getValue()) {
+				case Excel.calendar:
+					textStype.setDataFormat(format.getFormat(calendarFormat));
+					break;
+				case Excel.time:
+					textStype.setDataFormat(format.getFormat(timeFormat));
+					break;
+				case Excel.number:
+					// When you need to improve
+					break;
+				case Excel.string:
+					// When you need to improve
+					break;
+				}
+			} catch (Exception e) {
+//				 e.printStackTrace();
+			}
+			stypeCache.put(key, textStype);
 		}
-		cell.setCellStyle(textStype);
+		return stypeCache.get(key);
 	}
 
 	private static Map<String, Object> parseComment(Field filed) throws Exception {
