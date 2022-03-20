@@ -48,7 +48,7 @@ public class ClassUtil {
     }
 
     /**
-     * 
+     * 根据指定包路径，获取路径下面所有vo类
      * @param packageName
      * @return
      */
